@@ -1,0 +1,15 @@
+# VPN Certificate configuration for corporate environments
+COPY vpn-cert.* /tmp/
+RUN for cert_file in /tmp/vpn-cert.*; do \
+      if [ -f "$cert_file" ]; then \
+        echo "Found certificate: $cert_file" && \
+        cp "$cert_file" /usr/local/share/ca-certificates/vpn-cert.crt && \
+        update-ca-certificates && \
+        echo "Certificate installed successfully" && \
+        break; \
+      fi; \
+    done && \
+    rm -f /tmp/vpn-cert.* || echo "Info: No certificate found - continuing without cert"
+
+# Set NODE_EXTRA_CA_CERTS for Node.js to trust the certificate (if installed)
+ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/vpn-cert.crt
