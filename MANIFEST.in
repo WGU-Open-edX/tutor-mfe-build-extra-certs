@@ -1,0 +1,2 @@
+recursive-include tutormfe_build_extra_certs/patches *
+recursive-include tutormfe_build_extra_certs/templates *
