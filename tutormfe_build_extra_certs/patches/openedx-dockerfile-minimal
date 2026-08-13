@@ -13,3 +13,8 @@ RUN for cert_file in /tmp/vpn-cert.*; do \
 
 # Set NODE_EXTRA_CA_CERTS for Node.js to trust the certificate (if installed)
 ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/vpn-cert.crt
+
+# Set REQUESTS_CA_BUNDLE and SSL_CERT_FILE so Python's requests/urllib3/httpx
+# use the system CA store (which now includes the VPN cert) instead of certifi's bundle
+ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
